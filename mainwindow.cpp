@@ -28,9 +28,18 @@ MainWindow::MainWindow(QWidget *parent)
 
     QHBoxLayout* inputHBox = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), inputLabel, inputPathLine));
     QHBoxLayout* outputHBox = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), outputLabel, outputPathLine));
-    QVBoxLayout * linesLayout = static_cast<QVBoxLayout*>(createLayout(new QVBoxLayout(), findInputButton, findOutputButton));
+    QVBoxLayout * buttonsVBox = static_cast<QVBoxLayout*>(createLayout(new QVBoxLayout(), findInputButton, findOutputButton));
 
-    QVBoxLayout
+    QVBoxLayout * lines = new QVBoxLayout();
+    lines->addLayout(inputHBox);
+    lines->addLayout(outputHBox);
+
+    QHBoxLayout * main = new QHBoxLayout();
+    main->addLayout(lines);
+    main->addLayout(buttonsVBox);
+
+    //this->setLayout(inputHBox);
+    this->show();
 }
 
 MainWindow::~MainWindow()

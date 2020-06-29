@@ -28,7 +28,7 @@ private slots:
 
 private:
     QLayout * createLayout(QLayout* layout, QWidget * w1, QWidget * w2);
-
+    QLayout * createLayout(QLayout* layout, QLayout * l1, QLayout * l2);
     Ui::MainWindow *ui;
 
     QLabel * inputLabel;

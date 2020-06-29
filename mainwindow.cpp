@@ -30,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
     QHBoxLayout* outputHBox = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), outputLabel, outputPathLine));
     QVBoxLayout * linesLayout = static_cast<QVBoxLayout*>(createLayout(new QVBoxLayout(), findInputButton, findOutputButton));
 
-
+    QVBoxLayout
 }
 
 MainWindow::~MainWindow()

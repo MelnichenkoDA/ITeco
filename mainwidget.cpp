@@ -75,18 +75,20 @@ void MainWidget::outputButtonClicked()
 void MainWidget::startButtonClicked()
 {
     try {
-        int limit = memoryLimitLine->text().toInt();
+        bool ok = true;
+        int limit = memoryLimitLine->text().toInt(&ok);
+        if (!ok){
+            throw std::runtime_error("Wrong memory limit format (Only digits allowed)!");
+        }
         if (toggleOrderButton->isChecked()){
             sort<std::less<double>>(limit, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         } else {
             sort<std::greater<double>>(limit, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         }
 
-        QMessageBox msgBox;
-        msgBox.setText("Finished!");
-        msgBox.exec();
+        MyMessageBox("Sorting hav finished!", this);
     } catch (const std::exception & ex) {
-        qInfo() << "CATCH EX" << ex.what();
+        MyMessageBox(ex.what(), this);
     }
 }
 

@@ -69,7 +69,6 @@ void MakeInputWidget::generateButtonClicked()
         }
 
         MyMessageBox("The file have finished!", this);
-
     } catch (const std::exception & ex) {
         MyMessageBox(ex.what(), this);
     }

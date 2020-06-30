@@ -4,6 +4,9 @@
 #include "sorter.hpp"
 #include <QtWidgets>
 
+#include "mymessagebox.h"
+
+
 class MainWidget : public QWidget
 {
     Q_OBJECT

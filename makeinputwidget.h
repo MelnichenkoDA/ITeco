@@ -9,7 +9,7 @@ class MakeInputWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MakeInputWidget(QWidget *parent = nullptr);
+    explicit MakeInputWidget(std::function<void ()> callback, QWidget *parent = nullptr);
 
 signals:
 
@@ -17,6 +17,8 @@ private slots:
     void browseButtonClicked();
     void enableGenerateButton();
     void generateButtonClicked();
+    void backButtonClicked(std::function<void ()> callback);
+
 private:
     double makeRandom();
 

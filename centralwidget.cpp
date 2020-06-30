@@ -69,9 +69,9 @@ void CentralWidget::startButtonClicked()
 {
     try {
         if (toggleOrderButton->isChecked()){
-            sort<std::less<double>>(1000, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
+            sort<std::less<double>>(100000, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         } else {
-            sort<std::greater<double>>(1000, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
+            sort<std::greater<double>>(100000, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         }
 
         QMessageBox msgBox;

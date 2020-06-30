@@ -1,6 +1,7 @@
 #include "makeinputwidget.h"
 
-MakeInputWidget::MakeInputWidget(QWidget *parent) : QWidget(parent)
+MakeInputWidget::MakeInputWidget(std::function<void ()> callback,
+                                 QWidget *parent) : QWidget(parent)
 {
     QGridLayout * main = new QGridLayout(this);
 
@@ -27,6 +28,10 @@ MakeInputWidget::MakeInputWidget(QWidget *parent) : QWidget(parent)
     connect(generateButton, &QPushButton::clicked, this, &MakeInputWidget::generateButtonClicked);
     main->addWidget(generateButton);
 
+    backButton = new QPushButton(tr("Ok"));
+    connect(backButton, &QPushButton::clicked, this, std::bind(&MakeInputWidget::backButtonClicked, this, callback));
+    main->addWidget(backButton);
+
     setLayout(main);
 }
 
@@ -45,29 +50,34 @@ void MakeInputWidget::enableGenerateButton()
 void MakeInputWidget::generateButtonClicked()
 {
     double count = 0;
+    std::ofstream output(pathLine->text().toStdString());
     try {
         count = countLine->text().toDouble();
 
-        std::ofstream output(pathLine->text().toStdString());
         if (!output.is_open()){
             std::string message("Couldn't open file ");
             throw std::runtime_error(message + pathLine->text().toStdString());
         }
 
-        for (; count > 0; --count){
-            output << makeRandom() << " ";
-        }
-        QMessageBox msgBox;
-        msgBox.setText("Finished");
-        msgBox.exec();
     } catch (const std::exception & ex) {
         QMessageBox msgBox;
         msgBox.setText(ex.what());
         msgBox.exec();
-        count = 0;
+    }
+    for (; count > 0; --count){
+        output << makeRandom() << " ";
     }
 
+    QMessageBox msgBox;
+    msgBox.setText("Finished");
+    msgBox.exec();
+}
 
+void MakeInputWidget::backButtonClicked(std::function<void ()> callback)
+{
+    pathLine->setText("");
+    countLine->setText("");
+    callback();
 }
 
 double MakeInputWidget::makeRandom()

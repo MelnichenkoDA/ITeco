@@ -6,16 +6,28 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setWindowTitle("Sorter");
+
+    stackedWidgets = new QStackedWidget();
 
     createToolbar();
     addToolBar(Qt::TopToolBarArea, toolbar);
 
-    centralWidget = new CentralWidget();
-    setCentralWidget(centralWidget);
+    mainWidget = new CentralWidget();
+    stackedWidgets->addWidget(mainWidget);
 
-    makeWidget = new MakeInputWidget();
 
-    setWindowTitle("Sorter");
+    std::function<void ()> callback = std::bind(&MainWindow::setMainWidget, this);
+    makeWidget = new MakeInputWidget(callback);
+    stackedWidgets->addWidget(makeWidget);
+
+    setCentralWidget(stackedWidgets);
+    stackedWidgets->setCurrentWidget(mainWidget);
+
+}
+
+void MainWindow::setMainWidget(){
+    stackedWidgets->setCurrentWidget(mainWidget);
 }
 
 MainWindow::~MainWindow()
@@ -25,7 +37,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::makeButtonClicked()
 {
-    setCentralWidget(makeWidget);
+    stackedWidgets->setCurrentWidget(makeWidget);
 }
 
 void MainWindow::settingsButtonClicked()

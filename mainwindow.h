@@ -24,9 +24,12 @@ private slots:
 
 private:
     void createToolbar();
+    void setMainWidget();
 
-    CentralWidget* centralWidget;
+    QStackedWidget * stackedWidgets;
+    CentralWidget* mainWidget;
     MakeInputWidget * makeWidget;
+
     QToolBar * toolbar;
     Ui::MainWindow *ui;
 

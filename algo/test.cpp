@@ -1,16 +1,11 @@
 #include <iostream>
-#include <map>
+#include <fstream>
 
-class A{
-    A() = delete;
-public:
-    template<typename T>
-    static void sort(int a, int b, T comp);
-};
+using std::cout;
 
-template<typename T>
-void A::sort(int a, int b, T comp){
-    throw std::exception("test");
+template<typename Comparator>
+bool test(char * filename){
+    std::ifstream file(filename);
 }
 
 int main(){

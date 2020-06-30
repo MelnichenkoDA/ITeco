@@ -72,18 +72,12 @@ void TestingWidget::runButtonCLicked()
         }
 
         if (ok){
-            QMessageBox msgBox(this);
-            msgBox.setText("Numbers are sorted!");
-            msgBox.exec();
+            MyMessageBox box("Numbers are sorted!", this);
         } else {
-            QMessageBox msgBox;
-            msgBox.setText("Numbers aren't sorted!");
-            msgBox.exec();
+            MyMessageBox box("Numbers aren't sorted!", this);
         }
     } catch (const std::exception & ex) {
-        QMessageBox msgBox;
-        msgBox.setText(ex.what());
-        msgBox.exec();
+        MyMessageBox box(ex.what(), this);
     }
 }
 

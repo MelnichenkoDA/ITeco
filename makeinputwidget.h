@@ -5,6 +5,9 @@
 #include <QtWidgets>
 #include <fstream>
 
+#include "mymessagebox.h"
+
+
 class MakeInputWidget : public QWidget
 {
     Q_OBJECT

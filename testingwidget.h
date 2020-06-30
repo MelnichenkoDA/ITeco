@@ -3,8 +3,9 @@
 
 #include <QWidget>
 #include <QtWidgets>
-
 #include <fstream>
+
+#include "mymessagebox.h"
 
 
 using callback = std::function<void ()>;

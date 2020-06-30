@@ -20,6 +20,7 @@ SOURCES += \
     mainwidget.cpp \
     mainwindow.cpp \
     makeinputwidget.cpp \
+    mymessagebox.cpp \
     sorter.cpp \
     testingwidget.cpp
 
@@ -27,6 +28,7 @@ HEADERS += \
     mainwidget.h \
     mainwindow.h \
     makeinputwidget.h \
+    mymessagebox.h \
     sorter.hpp \
     testingwidget.h
 

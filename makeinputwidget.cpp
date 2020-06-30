@@ -68,14 +68,10 @@ void MakeInputWidget::generateButtonClicked()
             output << makeRandom() << " ";
         }
 
-        QMessageBox msgBox;
-        msgBox.setText("Finished");
-        msgBox.exec();
+        MyMessageBox("The file have finished!", this);
 
     } catch (const std::exception & ex) {
-        QMessageBox msgBox;
-        msgBox.setText(ex.what());
-        msgBox.exec();
+        MyMessageBox(ex.what(), this);
     }
 
 }

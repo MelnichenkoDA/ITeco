@@ -16,13 +16,15 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Sorter.cpp \
+    centralwidget.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    sorter.cpp
 
 HEADERS += \
-    Sorter.hpp \
-    mainwindow.h
+    centralwidget.h \
+    mainwindow.h \
+    sorter.hpp
 
 FORMS += \
     mainwindow.ui

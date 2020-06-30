@@ -6,7 +6,7 @@
 #include <limits>
 #include <functional>
 #include <QDebug>
-
+#include "sorter.hpp"
 
 using std::ifstream;
 using std::ofstream;

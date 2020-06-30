@@ -68,13 +68,17 @@ void MainWindow::outputButtonClicked()
 void MainWindow::startButtonClicked()
 {
     try {
-        sort(3, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str(), std::greater<double>());
+        std::less<double> op;
+        sort<std::greater<double>>(3, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         QMessageBox msgBox;
         msgBox.setText("Finished!");
         msgBox.exec();
 
     } catch (const std::exception & ex) {
-
+        qInfo() << "CATCH EX" << ex.what();
+    }
+    catch(...){
+        qInfo() << "CATCH";
     }
 }
 

@@ -2,10 +2,10 @@
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
+    : QDialog(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    setWindowTitle("Sorter");
 
     inputLabel = new QLabel(tr("Input path"));
     outputLabel = new QLabel(tr("Output path"));
@@ -14,7 +14,10 @@ MainWindow::MainWindow(QWidget *parent)
     inputLabel->setBuddy(inputPathLine);
 
     outputPathLine = new QLineEdit;
-    outputLabel->setBuddy(outputPathLine);
+    outputLabel->setBuddy(outputPathLine);    
+
+    connect(inputPathLine, SIGNAL(textChanged(QString)), this, SLOT(enableStartButton()));
+    connect(outputPathLine, SIGNAL(textChanged(QString)), this, SLOT(enableStartButton()));
 
     findInputButton = new QPushButton(tr("Choose..."));
     findInputButton->setDefault(true);
@@ -25,21 +28,24 @@ MainWindow::MainWindow(QWidget *parent)
 
     startButton = new QPushButton(tr("Start"));
     startButton->setEnabled(false);
+    connect(startButton, SIGNAL(clicked()), this, SLOT(startButtonClicked()));
 
-    QHBoxLayout* inputHBox = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), inputLabel, inputPathLine));
-    QHBoxLayout* outputHBox = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), outputLabel, outputPathLine));
-    QVBoxLayout * buttonsVBox = static_cast<QVBoxLayout*>(createLayout(new QVBoxLayout(), findInputButton, findOutputButton));
+    toggleOrderButton = new QRadioButton(tr("Toggle order"));
 
-    QVBoxLayout * lines = new QVBoxLayout();
-    lines->addLayout(inputHBox);
-    lines->addLayout(outputHBox);
+    QHBoxLayout * inputLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), inputLabel, inputPathLine));
+    inputLayout->addWidget(findInputButton);
 
-    QHBoxLayout * main = new QHBoxLayout();
-    main->addLayout(lines);
-    main->addLayout(buttonsVBox);
+    QHBoxLayout * outputLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), outputLabel, outputPathLine));
+    outputLayout->addWidget(findOutputButton);
 
-    //this->setLayout(inputHBox);
-    this->show();
+    QHBoxLayout * startLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), toggleOrderButton, startButton));
+
+    QVBoxLayout * main = new QVBoxLayout;
+    main->addLayout(inputLayout);
+    main->addLayout(outputLayout);
+    main->addLayout(startLayout);
+
+    setLayout(main);
 }
 
 MainWindow::~MainWindow()
@@ -49,22 +55,38 @@ MainWindow::~MainWindow()
 
 void MainWindow::inputButtonClicked()
 {
-    //QString Directory = QDir::
+    QString filename = QFileDialog::getOpenFileName(this, tr("Choose File"), "", tr("Text Files()"));
+    inputPathLine->setText(filename);
 }
 
 void MainWindow::outputButtonClicked()
 {
-
+    QString filename = QFileDialog::getOpenFileName(this, tr("Choose File"), "", tr("Text Files()"));
+    outputPathLine->setText(filename);
 }
 
 void MainWindow::startButtonClicked()
 {
+    try {
+        sort(3, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str(), std::greater<double>());
+        QMessageBox msgBox;
+        msgBox.setText("Finished!");
+        msgBox.exec();
 
+    } catch (const std::exception & ex) {
+
+    }
 }
 
 QLayout *MainWindow::createLayout(QLayout *layout, QWidget *w1, QWidget *w2){
     layout->addWidget(w1);
     layout->addWidget(w2);
     return layout;
+}
+
+void MainWindow::enableStartButton()
+{
+    qInfo() << bool(inputPathLine->text().length() && outputPathLine->text().length());
+    startButton->setEnabled(inputPathLine->text().length() && outputPathLine->text().length());
 }
 

@@ -25,11 +25,11 @@ private:
 
     QLabel * inputLabel;
     QLabel * outputLabel;
-    QLabel * memoryConsumptionLabel;
+    QLabel * memoryLimitLabel;
 
     QLineEdit * inputPathLine;
     QLineEdit * outputPathLine;
-    QLineEdit * memoryConsumptionLine;
+    QLineEdit * memoryLimitLine;
 
     QPushButton * findInputButton;
     QPushButton * findOutputButton;

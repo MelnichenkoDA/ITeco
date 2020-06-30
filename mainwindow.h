@@ -3,7 +3,7 @@
 
 #include "mainwidget.h"
 #include "makeinputwidget.h"
-
+#include "testingwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,7 +19,6 @@ public:
 
 private slots:
     void makeButtonClicked();
-    void settingsButtonClicked();
     void testButtonClicked();
 
 private:
@@ -29,6 +28,7 @@ private:
     QStackedWidget * stackedWidgets;
     MainWidget* mainWidget;
     MakeInputWidget * makeWidget;
+    TestingWidget * testingWidget;
 
     QToolBar * toolbar;
     Ui::MainWindow *ui;

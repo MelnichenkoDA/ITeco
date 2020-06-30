@@ -21,6 +21,9 @@ MainWindow::MainWindow(QWidget *parent)
     makeWidget = new MakeInputWidget(callback);
     stackedWidgets->addWidget(makeWidget);
 
+    testingWidget = new TestingWidget(callback);
+    stackedWidgets->addWidget(testingWidget);
+
     setCentralWidget(stackedWidgets);
     stackedWidgets->setCurrentWidget(mainWidget);
 
@@ -40,21 +43,16 @@ void MainWindow::makeButtonClicked()
     stackedWidgets->setCurrentWidget(makeWidget);
 }
 
-void MainWindow::settingsButtonClicked()
-{
-
-}
-
 void MainWindow::testButtonClicked()
 {
-
+    stackedWidgets->setCurrentWidget(testingWidget);
 }
 
 void MainWindow::createToolbar()
 {
     toolbar = new QToolBar("TEST");
     toolbar->addAction("Make file", this, SLOT(makeButtonClicked()));
-    toolbar->addAction("Test");
+    toolbar->addAction("Test", this, SLOT(testButtonClicked()));
 }
 
 

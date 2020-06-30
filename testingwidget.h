@@ -4,6 +4,9 @@
 #include <QWidget>
 #include <QtWidgets>
 
+#include <fstream>
+
+
 using callback = std::function<void ()>;
 
 class TestingWidget : public QWidget
@@ -20,10 +23,14 @@ private slots:
 
 private:
     QLabel * pathLabel;
+
     QLineEdit * pathLine;
+
     QPushButton * browseButton;
-    QPushButton * runTest;
+    QPushButton * runButton;
     QPushButton * returnButton;
+
+    QRadioButton * toggleOrderButton;
 
 };
 

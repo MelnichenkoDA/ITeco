@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setWindowTitle("Sorter");
 
+
     inputLabel = new QLabel(tr("Input path"));
     outputLabel = new QLabel(tr("Output path"));
 
@@ -31,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(startButton, SIGNAL(clicked()), this, SLOT(startButtonClicked()));
 
     toggleOrderButton = new QRadioButton(tr("Toggle order"));
-
+    connect(toggleOrderButton, SIGNAL(toggled(bool)), this, SLOT(makeClicked()));
     QHBoxLayout * inputLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), inputLabel, inputPathLine));
     inputLayout->addWidget(findInputButton);
 
@@ -70,14 +71,13 @@ void MainWindow::outputButtonClicked()
 void MainWindow::startButtonClicked()
 {
     try {
-        //Sorter::sort<std::less<double>>(size_t(1000), inputPathLine->text().toStdString().c_str(),
-        //     outputPathLine->text().toStdString().c_str(), std::less<double>());
+        //if (toggleOrderButton->getContentsMargins())
+        sort<std::greater<double>>(1000, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         QMessageBox msgBox;
         msgBox.setText("Finished!");
         msgBox.exec();
-
     } catch (const std::exception & ex) {
-
+        qInfo() << "CATCH EX" << ex.what();
     }
 }
 

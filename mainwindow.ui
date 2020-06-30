@@ -34,7 +34,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionMake_double">
    <property name="text">
-    <string>Make double</string>
+    <string>Make</string>
    </property>
   </action>
  </widget>

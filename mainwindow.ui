@@ -23,13 +23,6 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuMake_input">
-    <property name="title">
-     <string>Make input</string>
-    </property>
-    <addaction name="actionMake_double"/>
-   </widget>
-   <addaction name="menuMake_input"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionMake_double">

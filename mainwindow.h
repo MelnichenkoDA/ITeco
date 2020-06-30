@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include "centralwidget.h"
+#include "makeinputwidget.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,11 +17,17 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
+private slots:
+    void makeButtonClicked();
+    void settingsButtonClicked();
+    void testButtonClicked();
 
 private:
-    CentralWidget* widget;
+    void createToolbar();
 
+    CentralWidget* centralWidget;
+    MakeInputWidget * makeWidget;
+    QToolBar * toolbar;
     Ui::MainWindow *ui;
 
 

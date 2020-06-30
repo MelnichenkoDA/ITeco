@@ -7,8 +7,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    widget = new CentralWidget();
-    setCentralWidget(widget);
+    createToolbar();
+    addToolBar(Qt::TopToolBarArea, toolbar);
+
+    centralWidget = new CentralWidget();
+    setCentralWidget(centralWidget);
+
+    makeWidget = new MakeInputWidget();
 
     setWindowTitle("Sorter");
 }
@@ -16,6 +21,29 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::makeButtonClicked()
+{
+    setCentralWidget(makeWidget);
+}
+
+void MainWindow::settingsButtonClicked()
+{
+
+}
+
+void MainWindow::testButtonClicked()
+{
+
+}
+
+void MainWindow::createToolbar()
+{
+    toolbar = new QToolBar("TEST");
+    toolbar->addAction("Make file", this, SLOT(makeButtonClicked()));
+    toolbar->addAction("Settings");
+    toolbar->addAction("Test");
 }
 
 

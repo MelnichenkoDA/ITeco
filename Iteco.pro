@@ -19,11 +19,13 @@ SOURCES += \
     centralwidget.cpp \
     main.cpp \
     mainwindow.cpp \
+    makeinputwidget.cpp \
     sorter.cpp
 
 HEADERS += \
     centralwidget.h \
     mainwindow.h \
+    makeinputwidget.h \
     sorter.hpp
 
 FORMS += \

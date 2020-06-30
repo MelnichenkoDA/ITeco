@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "centralwidget.h"
+#include "mainwidget.h"
 #include "makeinputwidget.h"
 
 
@@ -27,7 +27,7 @@ private:
     void setMainWidget();
 
     QStackedWidget * stackedWidgets;
-    CentralWidget* mainWidget;
+    MainWidget* mainWidget;
     MakeInputWidget * makeWidget;
 
     QToolBar * toolbar;

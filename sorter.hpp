@@ -14,7 +14,7 @@ using std::map;
 
 template<class Comparator>
 void sort(size_t lim, const char *inputFilename,
-                                 const char *outputFilename)
+          const char *outputFilename)
 {
     ifstream input(inputFilename);
     if (!input.is_open()){
@@ -25,6 +25,8 @@ void sort(size_t lim, const char *inputFilename,
     if (!output.is_open()){
         throw std::runtime_error("Couldn't open output file");
     }
+
+    lim = (lim / 3) * 2;
 
     Comparator comp;
     std::map<double, int, Comparator> buff;

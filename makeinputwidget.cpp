@@ -49,28 +49,35 @@ void MakeInputWidget::enableGenerateButton()
 
 void MakeInputWidget::generateButtonClicked()
 {
-    double count = 0;
-    std::ofstream output(pathLine->text().toStdString());
+
     try {
-        count = countLine->text().toDouble();
+        bool ok = true;
+        double count = countLine->text().toDouble(&ok);
+        if (!ok){
+            throw std::runtime_error("Wrong numbers count format");
+        }
+
+        std::ofstream output(pathLine->text().toStdString());
 
         if (!output.is_open()){
             std::string message("Couldn't open file ");
             throw std::runtime_error(message + pathLine->text().toStdString());
         }
 
+        for (; count > 0; --count){
+            output << makeRandom() << " ";
+        }
+
+        QMessageBox msgBox;
+        msgBox.setText("Finished");
+        msgBox.exec();
+
     } catch (const std::exception & ex) {
         QMessageBox msgBox;
         msgBox.setText(ex.what());
         msgBox.exec();
     }
-    for (; count > 0; --count){
-        output << makeRandom() << " ";
-    }
 
-    QMessageBox msgBox;
-    msgBox.setText("Finished");
-    msgBox.exec();
 }
 
 void MakeInputWidget::backButtonClicked(std::function<void ()> callback)

@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     createToolbar();
     addToolBar(Qt::TopToolBarArea, toolbar);
 
-    mainWidget = new CentralWidget();
+    mainWidget = new MainWidget();
     stackedWidgets->addWidget(mainWidget);
 
 
@@ -54,7 +54,6 @@ void MainWindow::createToolbar()
 {
     toolbar = new QToolBar("TEST");
     toolbar->addAction("Make file", this, SLOT(makeButtonClicked()));
-    toolbar->addAction("Settings");
     toolbar->addAction("Test");
 }
 

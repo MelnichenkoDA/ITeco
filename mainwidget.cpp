@@ -1,13 +1,18 @@
-#include "centralwidget.h"
+#include "mainwidget.h"
 
-CentralWidget::CentralWidget(QWidget * parent) :
+MainWidget::MainWidget(QWidget * parent) :
     QWidget(parent)
 {
     inputLabel = new QLabel(tr("Input path"));
     outputLabel = new QLabel(tr("Output path"));
+    memoryLimitLabel = new QLabel(tr("Memory limit"));
 
     inputPathLine = new QLineEdit;
     inputLabel->setBuddy(inputPathLine);
+
+    memoryLimitLine = new QLineEdit();
+    connect(memoryLimitLine, SIGNAL(textChanged(const QString &)), this, SLOT(memoryLimitChanged(const QString& )));
+    memoryLimitLabel->setBuddy(memoryLimitLine);
 
     outputPathLine = new QLineEdit;
     outputLabel->setBuddy(outputPathLine);
@@ -37,41 +42,44 @@ CentralWidget::CentralWidget(QWidget * parent) :
     outputLayout->addWidget(findOutputButton);
 
     QHBoxLayout * startLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), toggleOrderButton, startButton));
+    QHBoxLayout * limitLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), memoryLimitLabel, memoryLimitLine));
 
     QVBoxLayout * main = new QVBoxLayout;
     main->addLayout(inputLayout);
     main->addLayout(outputLayout);
+    main->addLayout(limitLayout);
     main->addLayout(startLayout);
 
     setLayout(main);
 }
 
-CentralWidget::~CentralWidget()
+MainWidget::~MainWidget()
 {
 
 }
 
-void CentralWidget::inputButtonClicked()
+void MainWidget::inputButtonClicked()
 {
     QString filename = QFileDialog::getOpenFileName(
                 this, tr("Choose File"), "", tr("Text Files(*)", nullptr, QFileDialog::DontUseNativeDialog));
     inputPathLine->setText(filename);
 }
 
-void CentralWidget::outputButtonClicked()
+void MainWidget::outputButtonClicked()
 {
     QString filename = QFileDialog::getOpenFileName(
                 this, tr("Choose File"), "", tr("Text Files(*)", nullptr, QFileDialog::DontUseNativeDialog));
     outputPathLine->setText(filename);
 }
 
-void CentralWidget::startButtonClicked()
+void MainWidget::startButtonClicked()
 {
     try {
+        int limit = memoryLimitLine->text().toInt();
         if (toggleOrderButton->isChecked()){
-            sort<std::less<double>>(100000, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
+            sort<std::less<double>>(limit, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         } else {
-            sort<std::greater<double>>(100000, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
+            sort<std::greater<double>>(limit, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         }
 
         QMessageBox msgBox;
@@ -82,12 +90,12 @@ void CentralWidget::startButtonClicked()
     }
 }
 
-void CentralWidget::enableStartButton()
+void MainWidget::enableStartButton()
 {
     startButton->setEnabled(inputPathLine->text().length() && outputPathLine->text().length());
 }
 
-void CentralWidget::togglerClicked()
+void MainWidget::togglerClicked()
 {
     if (toggleOrderButton->isChecked()){
         toggleOrderButton->setText("Desc");
@@ -96,7 +104,16 @@ void CentralWidget::togglerClicked()
     }
 }
 
-QLayout *CentralWidget::createLayout(QLayout *layout, QWidget *w1, QWidget *w2)
+void MainWidget::memoryLimitChanged(const QString & text)
+{
+    bool ok = true;
+    text.toInt(&ok);
+    if (!ok){
+        memoryLimitLine->setText("");
+    }
+}
+
+QLayout *MainWidget::createLayout(QLayout *layout, QWidget *w1, QWidget *w2)
 {
     layout->addWidget(w1);
     layout->addWidget(w2);

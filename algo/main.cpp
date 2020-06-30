@@ -1,7 +1,7 @@
 #include "algo.hpp"
 
 int main(){
-    func(3, "in", "out_data");    
+    func(10000, "in", "out");    
     
     return 0;
 }

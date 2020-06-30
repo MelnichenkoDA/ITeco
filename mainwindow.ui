@@ -20,11 +20,23 @@
      <x>0</x>
      <y>0</y>
      <width>445</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuMake_input">
+    <property name="title">
+     <string>Make input</string>
+    </property>
+    <addaction name="actionMake_double"/>
+   </widget>
+   <addaction name="menuMake_input"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionMake_double">
+   <property name="text">
+    <string>Make double</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

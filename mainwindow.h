@@ -31,6 +31,7 @@ private slots:
     void outputButtonClicked();
     void startButtonClicked();
     void enableStartButton();
+    void makeClicked();
 
 private:
     QLayout * createLayout(QLayout* layout, QWidget * w1, QWidget * w2);

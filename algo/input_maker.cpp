@@ -12,5 +12,5 @@ void make_input(size_t size, const char *filename){
 }
 
 int main(){
-    make_input(100, "in");
+    make_input(1000000, "in");
 }

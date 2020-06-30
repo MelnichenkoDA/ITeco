@@ -6,9 +6,9 @@ using std::ofstream;
 using std::map;
 
 
-
+template<typename Comparator>
 void Sorter::sort(size_t lim, const char *inputFilename,
-                                 const char *outputFilename, std::function<bool (double, double)> comp)
+                  const char *outputFilename, Comparator comp)
 {
     ifstream input(inputFilename);
     if (!input.is_open()){
@@ -21,9 +21,11 @@ void Sorter::sort(size_t lim, const char *inputFilename,
     }
 
     std::map<double, int, decltype(comp)> buff;
-    std::map<double, int, decltype(comp)>::iterator it;
+    auto it = buff.begin();
+
     double min = std::numeric_limits<double>::max();
     double value;
+
     for (bool changed = true; changed; ){
         while((buff.size() < lim) && (input >> value)){
             if (comp(value, min)){

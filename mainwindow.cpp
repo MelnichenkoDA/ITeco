@@ -55,20 +55,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::inputButtonClicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, tr("Choose File"), "", tr("Text Files()"));
+    QString filename = QFileDialog::getOpenFileName(
+                this, tr("Choose File"), "", tr("Text Files(*)", nullptr, QFileDialog::DontUseNativeDialog));
     inputPathLine->setText(filename);
 }
 
 void MainWindow::outputButtonClicked()
 {
-    QString filename = QFileDialog::getOpenFileName(this, tr("Choose File"), "", tr("Text Files()"));
+    QString filename = QFileDialog::getOpenFileName(
+                this, tr("Choose File"), "", tr("Text Files(*)", nullptr, QFileDialog::DontUseNativeDialog));
     outputPathLine->setText(filename);
 }
 
 void MainWindow::startButtonClicked()
 {
     try {
-        sort(3, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str(), std::greater<double>());
+        //Sorter::sort<std::less<double>>(size_t(1000), inputPathLine->text().toStdString().c_str(),
+        //     outputPathLine->text().toStdString().c_str(), std::less<double>());
         QMessageBox msgBox;
         msgBox.setText("Finished!");
         msgBox.exec();
@@ -86,7 +89,11 @@ QLayout *MainWindow::createLayout(QLayout *layout, QWidget *w1, QWidget *w2){
 
 void MainWindow::enableStartButton()
 {
-    qInfo() << bool(inputPathLine->text().length() && outputPathLine->text().length());
     startButton->setEnabled(inputPathLine->text().length() && outputPathLine->text().length());
+}
+
+void MainWindow::makeClicked()
+{
+
 }
 

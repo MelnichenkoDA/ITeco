@@ -7,12 +7,10 @@
 #include <functional>
 
 class Sorter{
-    Sorter();
-    Sorter(const Sorter& other) = delete;
-    Sorter& operator=(const Sorter& other) = delete;
 public:
+    template<typename Comparator>
     static void sort(size_t lim, const char * inputFilename,
-                     const char * outputFilename, std::function<bool (double, double)>);
+                     const char * outputFilename, Comparator);
 };
 
 #endif // ALGO_HPP

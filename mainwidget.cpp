@@ -48,10 +48,7 @@ MainWidget::MainWidget(QWidget * parent) :
     QHBoxLayout * limitLayout = static_cast<QHBoxLayout*>(
                 LayoutConstructor::construct(new QHBoxLayout(), memoryLimitLabel, memoryLimitLine));
 
-    QVBoxLayout * main = new QVBoxLayout;
-    main->addLayout(inputLayout);
-    main->addLayout(outputLayout);
-    main->addLayout(limitLayout);
+    QVBoxLayout * main = LayoutConstructor::construct(new QVBoxLayout, inputLayout, outputLayout, limitLayout);
     main->addLayout(startLayout);
 
     setLayout(main);

@@ -11,8 +11,8 @@ public:
     static QLayout* construct(QLayout * layout, QWidget * w1,
                                     QWidget * w2 = nullptr, QWidget * w3 = nullptr);
 
-    static QLayout* construct(QLayout * layout, QLayout * l1,
-                              QLayout * l2 = nullptr, QLayout * l3 = nullptr);
+    static QVBoxLayout* construct(QVBoxLayout * layout, QHBoxLayout * l1,
+                              QHBoxLayout * l2 = nullptr, QHBoxLayout * l3 = nullptr);
 };
 
 #endif // LAYOUTCONSTRUCTOR_H

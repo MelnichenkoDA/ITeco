@@ -6,6 +6,7 @@
 #include <fstream>
 
 #include "mymessagebox.h"
+#include "layoutconstructor.h"
 
 
 class MakeInputWidget : public QWidget

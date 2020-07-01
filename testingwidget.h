@@ -6,6 +6,7 @@
 #include <fstream>
 
 #include "mymessagebox.h"
+#include "layoutconstructor.h"
 
 
 using callback = std::function<void ()>;

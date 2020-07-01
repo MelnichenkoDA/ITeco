@@ -19,18 +19,13 @@ TestingWidget::TestingWidget(callback func, QWidget *parent) : QWidget(parent)
     toggleOrderButton = new QRadioButton(tr("Desc"));
     toggleOrderButton->setChecked(true);
 
-    QHBoxLayout * pathLayout = new QHBoxLayout();
-    pathLayout->addWidget(pathLabel);
-    pathLayout->addWidget(pathLine);
-    pathLayout->addWidget(browseButton);
+    QHBoxLayout * pathLayout = static_cast<QHBoxLayout*>(
+                LayoutConstructor::construct(new QHBoxLayout, pathLabel, pathLine, browseButton));
 
-    QHBoxLayout * runLayout = new QHBoxLayout();
-    runLayout->addWidget(toggleOrderButton);
-    runLayout->addWidget(runButton);
+    QHBoxLayout * runLayout = static_cast<QHBoxLayout*>(
+                LayoutConstructor::construct(new QHBoxLayout, toggleOrderButton, runButton));
 
-    QVBoxLayout * main = new QVBoxLayout;
-    main->addLayout(pathLayout);
-    main->addLayout(runLayout);
+    QVBoxLayout * main = LayoutConstructor::construct(new QVBoxLayout, pathLayout, runLayout);
     main->addWidget(returnButton);
 
     setLayout(main);
@@ -83,5 +78,7 @@ void TestingWidget::runButtonCLicked()
 
 void TestingWidget::returnButtonClicked(callback func)
 {
+    pathLine->setText("");
+    toggleOrderButton->setChecked(true);
     func();
 }

@@ -22,7 +22,6 @@ SOURCES += \
     mainwindow.cpp \
     makeinputwidget.cpp \
     mymessagebox.cpp \
-    sorter.cpp \
     testingwidget.cpp
 
 HEADERS += \

@@ -5,7 +5,6 @@
 #include <map>
 #include <limits>
 #include <functional>
-#include <QDebug>
 
 using std::ifstream;
 using std::ofstream;

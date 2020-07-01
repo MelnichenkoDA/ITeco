@@ -11,6 +11,7 @@ MainWidget::MainWidget(QWidget * parent) :
     inputLabel->setBuddy(inputPathLine);
 
     memoryLimitLine = new QLineEdit();
+    memoryLimitLine->setText("10000");
     connect(memoryLimitLine, SIGNAL(textChanged(const QString &)), this, SLOT(memoryLimitChanged(const QString& )));
     memoryLimitLabel->setBuddy(memoryLimitLine);
 
@@ -77,10 +78,12 @@ void MainWidget::startButtonClicked()
 {
     try {
         bool ok = true;
+
         int limit = memoryLimitLine->text().toInt(&ok);
         if (!ok){
             throw std::runtime_error("Wrong memory limit format (Only digits allowed)!");
         }
+
         if (toggleOrderButton->isChecked()){
             sort<std::less<double>>(limit, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         } else {

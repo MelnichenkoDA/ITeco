@@ -25,8 +25,6 @@ void sort(size_t lim, const char *inputFilename,
         throw std::runtime_error("Couldn't open output file");
     }
 
-    lim = (lim / 3) * 2;
-
     Comparator comp;
     std::map<double, int, Comparator> buff;
     auto it = buff.begin();

@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    layoutconstructor.cpp \
     main.cpp \
     mainwidget.cpp \
     mainwindow.cpp \
@@ -25,6 +26,7 @@ SOURCES += \
     testingwidget.cpp
 
 HEADERS += \
+    layoutconstructor.h \
     mainwidget.h \
     mainwindow.h \
     makeinputwidget.h \

@@ -35,14 +35,18 @@ MainWidget::MainWidget(QWidget * parent) :
     toggleOrderButton->setChecked(true);
 
     connect(toggleOrderButton, SIGNAL(toggled(bool)), this, SLOT(togglerClicked()));
-    QHBoxLayout * inputLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), inputLabel, inputPathLine));
-    inputLayout->addWidget(findInputButton);
 
-    QHBoxLayout * outputLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), outputLabel, outputPathLine));
-    outputLayout->addWidget(findOutputButton);
+    QHBoxLayout * inputLayout = static_cast<QHBoxLayout*>(
+                LayoutConstructor::construct(new QHBoxLayout, inputLabel, inputPathLine, findInputButton));
 
-    QHBoxLayout * startLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), toggleOrderButton, startButton));
-    QHBoxLayout * limitLayout = static_cast<QHBoxLayout*>(createLayout(new QHBoxLayout(), memoryLimitLabel, memoryLimitLine));
+    QHBoxLayout * outputLayout = static_cast<QHBoxLayout*>(
+                LayoutConstructor::construct(new QHBoxLayout(), outputLabel, outputPathLine, findOutputButton));
+
+    QHBoxLayout * startLayout = static_cast<QHBoxLayout*>(
+                LayoutConstructor::construct(new QHBoxLayout(), toggleOrderButton, startButton));
+
+    QHBoxLayout * limitLayout = static_cast<QHBoxLayout*>(
+                LayoutConstructor::construct(new QHBoxLayout(), memoryLimitLabel, memoryLimitLine));
 
     QVBoxLayout * main = new QVBoxLayout;
     main->addLayout(inputLayout);
@@ -86,7 +90,7 @@ void MainWidget::startButtonClicked()
             sort<std::greater<double>>(limit, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
         }
 
-        MyMessageBox("Sorting hav finished!", this);
+        MyMessageBox("Sorting have finished!", this);
     } catch (const std::exception & ex) {
         MyMessageBox(ex.what(), this);
     }

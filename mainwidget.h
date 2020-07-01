@@ -5,7 +5,7 @@
 #include <QtWidgets>
 
 #include "mymessagebox.h"
-
+#include "layoutconstructor.h"
 
 class MainWidget : public QWidget
 {

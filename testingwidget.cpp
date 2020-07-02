@@ -18,6 +18,7 @@ TestingWidget::TestingWidget(callback func, QWidget *parent) : QWidget(parent)
 
     toggleOrderButton = new QRadioButton(tr("Desc"));
     toggleOrderButton->setChecked(true);
+    connect(toggleOrderButton, &QPushButton::clicked, this, &TestingWidget::toggleButtonClicked);
 
     progressBar = new QProgressBar;
     progressBar->setMinimum(0);
@@ -74,8 +75,7 @@ void TestingWidget::runButtonCLicked()
 
         for (double temp = 0; file >> current; ++temp){
             progressBar->setValue(int((temp / count) * 100));
-            if (!comparator(prev, current)){
-                qInfo() << prev<< " " << current;
+            if (comparator(prev, current)){
                 MyMessageBox box("Numbers arent sorted!", this);
                 return;
             }
@@ -94,4 +94,13 @@ void TestingWidget::returnButtonClicked(callback func)
     toggleOrderButton->setChecked(true);
     progressBar->setValue(0);
     func();
+}
+
+void TestingWidget::toggleButtonClicked()
+{
+    if(toggleOrderButton->isChecked()){
+        toggleOrderButton->setText("Desc");
+    } else {
+        toggleOrderButton->setText("Asc");
+    }
 }

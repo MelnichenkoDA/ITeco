@@ -63,20 +63,21 @@ void MakeInputWidget::generateButtonClicked()
             throw std::runtime_error("Wrong numbers count format");
         }
 
-        std::ofstream output(pathLine->text().toStdString());
+        std::ofstream output(pathLine->text().toStdString(), std::ios::binary);
 
         if (!output.is_open()){
             std::string message("Couldn't open file ");
             throw std::runtime_error(message + pathLine->text().toStdString());
         }
 
-
+        double value;
         for (double temp = 0; temp < count; ++temp){
-            output << makeRandom() << " ";
+            while (qIsInf(value = makeRandom()));
+            output << value << " ";
             progressBar->setValue(int((temp / count) * 100));
         }
         progressBar->setValue(100);
-
+        output.close();
         MyMessageBox("The file have finished!", this);
     } catch (const std::exception & ex) {
         MyMessageBox(ex.what(), this);

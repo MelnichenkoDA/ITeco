@@ -2,9 +2,11 @@
 #define ALGO_HPP
 
 #include <fstream>
+#include <unordered_map>
 #include <map>
 #include <limits>
 #include <functional>
+#include <QDebug>
 
 using std::ifstream;
 using std::ofstream;
@@ -15,12 +17,12 @@ template<class Comparator>
 void sort(size_t lim, const char *inputFilename,
           const char *outputFilename, std::function<void (int)> updateCallback)
 {
-    ifstream input(inputFilename);
+    ifstream input(inputFilename, std::ios::binary);
     if (!input.is_open()){
         throw std::runtime_error("Couldn't open input file");
     }
 
-    ofstream output(outputFilename);
+    ofstream output(outputFilename, std::ios::binary);
     if (!output.is_open()){
         throw std::runtime_error("Couldn't open output file");
     }
@@ -85,6 +87,7 @@ void sort(size_t lim, const char *inputFilename,
 
         input.clear();
         input.seekg(0, std::ios::beg);
+
     }
 
     input.close();

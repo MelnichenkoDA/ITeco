@@ -132,5 +132,6 @@ void MainWidget::memoryLimitChanged(const QString & text)
 
 void MainWidget::updateProgressBar(int value)
 {
+    qInfo() << value;
     progressBar->setValue(progressBar->value() + value);
 }

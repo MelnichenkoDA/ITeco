@@ -29,8 +29,13 @@ MakeInputWidget::MakeInputWidget(std::function<void ()> callback,
     backButton = new QPushButton(tr("Back"));
     connect(backButton, &QPushButton::clicked, this, std::bind(&MakeInputWidget::backButtonClicked, this, callback));
 
+    progressBar = new QProgressBar;
+    progressBar->setMinimum(0);
+    progressBar->setMaximum(100);
+
     QVBoxLayout * main = static_cast<QVBoxLayout*>(
                 LayoutConstructor::construct(new QVBoxLayout(this), pathLayout, generateLayout));
+    main->addWidget(progressBar);
     main->addWidget(backButton);
 
     setLayout(main);
@@ -65,21 +70,24 @@ void MakeInputWidget::generateButtonClicked()
             throw std::runtime_error(message + pathLine->text().toStdString());
         }
 
-        for (; count > 0; --count){
+
+        for (double temp = 0; temp < count; ++temp){
             output << makeRandom() << " ";
+            progressBar->setValue(int((temp / count) * 100));
         }
+        progressBar->setValue(100);
 
         MyMessageBox("The file have finished!", this);
     } catch (const std::exception & ex) {
         MyMessageBox(ex.what(), this);
     }
-
 }
 
 void MakeInputWidget::backButtonClicked(std::function<void ()> callback)
 {
     pathLine->setText("");
     countLine->setText("");
+    progressBar->setValue(0);
     callback();
 }
 

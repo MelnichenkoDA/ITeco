@@ -19,6 +19,11 @@ TestingWidget::TestingWidget(callback func, QWidget *parent) : QWidget(parent)
     toggleOrderButton = new QRadioButton(tr("Desc"));
     toggleOrderButton->setChecked(true);
 
+    progressBar = new QProgressBar;
+    progressBar->setMinimum(0);
+    progressBar->setMaximum(100);
+    progressBar->setValue(0);
+
     QHBoxLayout * pathLayout = static_cast<QHBoxLayout*>(
                 LayoutConstructor::construct(new QHBoxLayout, pathLabel, pathLine, browseButton));
 
@@ -26,6 +31,7 @@ TestingWidget::TestingWidget(callback func, QWidget *parent) : QWidget(parent)
                 LayoutConstructor::construct(new QHBoxLayout, toggleOrderButton, runButton));
 
     QVBoxLayout * main = LayoutConstructor::construct(new QVBoxLayout, pathLayout, runLayout);
+    main->addWidget(progressBar);
     main->addWidget(returnButton);
 
     setLayout(main);
@@ -48,29 +54,35 @@ void TestingWidget::runButtonCLicked()
             throw  std::runtime_error(error + pathLine->text().toStdString());
         }
 
-        bool ok = true;
-        double prev, current;
+        std::function<bool (double, double)> comparator;
+        if (toggleOrderButton->isChecked()){
+            comparator = std::less_equal<double>();
+        } else {
+            comparator = std::greater_equal<double>();
+        }
+
+        double current, count = 0;
+        while(file >> current){
+            ++count;
+        }
+
+        file.clear();
+        file.seekg(0, std::ios::beg);
+
+        double prev;
         file >> prev;
 
-        while (file >> current){
-            if (toggleOrderButton->isChecked()){
-                if (prev < current){
-                    ok = false;
-                    break;
-                }
-            } else {
-                if (prev > current){
-                    ok = false;
-                    break;
-                }
+        for (double temp = 0; file >> current; ++temp){
+            progressBar->setValue(int((temp / count) * 100));
+            if (!comparator(prev, current)){
+                qInfo() << prev<< " " << current;
+                MyMessageBox box("Numbers arent sorted!", this);
+                return;
             }
         }
 
-        if (ok){
-            MyMessageBox box("Numbers are sorted!", this);
-        } else {
-            MyMessageBox box("Numbers aren't sorted!", this);
-        }
+        progressBar->setValue(100);
+        MyMessageBox box("Numbers are sorted", this);
     } catch (const std::exception & ex) {
         MyMessageBox box(ex.what(), this);
     }
@@ -80,5 +92,6 @@ void TestingWidget::returnButtonClicked(callback func)
 {
     pathLine->setText("");
     toggleOrderButton->setChecked(true);
+    progressBar->setValue(0);
     func();
 }

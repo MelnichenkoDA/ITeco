@@ -34,6 +34,8 @@ private:
 
     QRadioButton * toggleOrderButton;
 
+    QProgressBar * progressBar;
+
 };
 
 #endif // TESTINGWIDGET_H

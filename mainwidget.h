@@ -24,7 +24,7 @@ private slots:
     void memoryLimitChanged(const QString & );
 
 private:
-    QLayout * createLayout(QLayout* layout, QWidget * w1, QWidget * w2);
+    void updateProgressBar(int value);
 
     QLabel * inputLabel;
     QLabel * outputLabel;
@@ -39,6 +39,8 @@ private:
     QPushButton * startButton;
 
     QRadioButton * toggleOrderButton;
+
+    QProgressBar * progressBar;
 };
 
 #endif // CENTRALWIDGET_H

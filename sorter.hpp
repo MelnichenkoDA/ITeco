@@ -13,7 +13,7 @@ using std::map;
 
 template<class Comparator>
 void sort(size_t lim, const char *inputFilename,
-          const char *outputFilename)
+          const char *outputFilename, std::function<void (int)> updateCallback)
 {
     ifstream input(inputFilename);
     if (!input.is_open()){
@@ -26,7 +26,7 @@ void sort(size_t lim, const char *inputFilename,
     }
 
     Comparator comp;
-    std::map<double, int, Comparator> buff;
+    std::map<double, unsigned int, Comparator> buff;
     auto it = buff.begin();
 
     double border = std::numeric_limits<double>::max();
@@ -35,9 +35,10 @@ void sort(size_t lim, const char *inputFilename,
     }
 
     double value;
-
-    for (bool changed = true; changed; ) {
+    double temp = 0, count = 0;
+    for (bool changed = true; changed;) {
         while((buff.size() < lim) && (input >> value)){
+            ++count;
             if (comp(value, border)){
                 buff[value] += 1;
             }
@@ -48,6 +49,7 @@ void sort(size_t lim, const char *inputFilename,
         }
 
         while(input >> value){
+            ++count;
             if (!comp(value, border) || value == border){
                 continue;
             }
@@ -69,10 +71,14 @@ void sort(size_t lim, const char *inputFilename,
         }
 
         for (auto t = buff.rbegin(); t != buff.rend(); t++){
-            for (int i = 0; i < t->second; ++i){
+            for (unsigned i = 0; i < t->second; ++i){
+                ++temp;
                 output << t->first << " ";
             }
         }
+
+        updateCallback(int((temp /  count) * 100));
+        temp = count = 0;
 
         border = buff.begin()->first;
         buff.clear();

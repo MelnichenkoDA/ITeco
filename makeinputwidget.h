@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QtWidgets>
 #include <fstream>
-
+#include <cmath>
 #include "mymessagebox.h"
 #include "layoutconstructor.h"
 
@@ -35,6 +35,8 @@ private:
     QPushButton * browseButton;
     QPushButton * generateButton;
     QPushButton * backButton;
+
+    QProgressBar* progressBar;
 };
 
 #endif // MAKEINPUTWIDGET_H

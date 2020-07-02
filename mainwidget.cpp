@@ -37,6 +37,11 @@ MainWidget::MainWidget(QWidget * parent) :
 
     connect(toggleOrderButton, SIGNAL(toggled(bool)), this, SLOT(togglerClicked()));
 
+    progressBar = new QProgressBar();
+    progressBar->setValue(0);
+    progressBar->setMinimum(0);
+    progressBar->setMaximum(100);
+
     QHBoxLayout * inputLayout = static_cast<QHBoxLayout*>(
                 LayoutConstructor::construct(new QHBoxLayout, inputLabel, inputPathLine, findInputButton));
 
@@ -51,6 +56,7 @@ MainWidget::MainWidget(QWidget * parent) :
 
     QVBoxLayout * main = LayoutConstructor::construct(new QVBoxLayout, inputLayout, outputLayout, limitLayout);
     main->addLayout(startLayout);
+    main->addWidget(progressBar);
 
     setLayout(main);
 }
@@ -77,6 +83,7 @@ void MainWidget::outputButtonClicked()
 void MainWidget::startButtonClicked()
 {
     try {
+        progressBar->setValue(0);
         bool ok = true;
 
         int limit = memoryLimitLine->text().toInt(&ok);
@@ -84,11 +91,15 @@ void MainWidget::startButtonClicked()
             throw std::runtime_error("Wrong memory limit format (Only digits allowed)!");
         }
 
+        std::function<void (int)> callback = std::bind(&MainWidget::updateProgressBar, this, std::placeholders::_1);
         if (toggleOrderButton->isChecked()){
-            sort<std::less<double>>(limit, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
+            sort<std::less<double>>(limit, inputPathLine->text().toStdString().c_str(),
+                                    outputPathLine->text().toStdString().c_str(), callback);
         } else {
-            sort<std::greater<double>>(limit, inputPathLine->text().toStdString().c_str(), outputPathLine->text().toStdString().c_str());
+            sort<std::greater<double>>(limit, inputPathLine->text().toStdString().c_str(),
+                                       outputPathLine->text().toStdString().c_str(), callback);
         }
+        progressBar->setValue(100);
 
         MyMessageBox("Sorting have finished!", this);
     } catch (const std::exception & ex) {
@@ -119,9 +130,7 @@ void MainWidget::memoryLimitChanged(const QString & text)
     }
 }
 
-QLayout *MainWidget::createLayout(QLayout *layout, QWidget *w1, QWidget *w2)
+void MainWidget::updateProgressBar(int value)
 {
-    layout->addWidget(w1);
-    layout->addWidget(w2);
-    return layout;
+    progressBar->setValue(progressBar->value() + value);
 }

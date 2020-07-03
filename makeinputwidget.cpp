@@ -55,7 +55,6 @@ void MakeInputWidget::enableGenerateButton()
 
 void MakeInputWidget::generateButtonClicked()
 {
-
     try {
         bool ok = true;
         double count = countLine->text().toDouble(&ok);
@@ -94,7 +93,9 @@ void MakeInputWidget::backButtonClicked(std::function<void ()> callback)
 
 double MakeInputWidget::makeRandom()
 {
-    return double(rand()) / double(rand()) * 10 - 100;
+    double max = std::numeric_limits<double>::max();
+    double min = std::numeric_limits<double>::min();
+    return (max - min) * ((double)rand() / (double)RAND_MAX) + min;
 }
 
 

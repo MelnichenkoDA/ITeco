@@ -16,7 +16,7 @@ TestingWidget::TestingWidget(callback func, QWidget *parent) : QWidget(parent)
     returnButton = new QPushButton(tr("Back"));
     connect(returnButton, &QPushButton::clicked, this, std::bind(&TestingWidget::returnButtonClicked, this, func));
 
-    toggleOrderButton = new QRadioButton(tr("Desc"));
+    toggleOrderButton = new QRadioButton(tr("Asc"));
     toggleOrderButton->setChecked(true);
     connect(toggleOrderButton, &QPushButton::clicked, this, &TestingWidget::toggleButtonClicked);
 
@@ -57,9 +57,9 @@ void TestingWidget::runButtonCLicked()
 
         std::function<bool (double, double)> comparator;
         if (toggleOrderButton->isChecked()){
-            comparator = std::less_equal<double>();
+            comparator = std::greater_equal<double>();            
         } else {
-            comparator = std::greater_equal<double>();
+            comparator = std::less_equal<double>();
         }
 
         double current, count = 0;
@@ -75,7 +75,8 @@ void TestingWidget::runButtonCLicked()
 
         for (double temp = 0; file >> current; ++temp){
             progressBar->setValue(int((temp / count) * 100));
-            if (comparator(prev, current)){
+            if (comparator(prev, current) && prev != current){
+                qInfo() << prev << " " << current;
                 MyMessageBox box("Numbers arent sorted!", this);
                 return;
             }
@@ -99,8 +100,8 @@ void TestingWidget::returnButtonClicked(callback func)
 void TestingWidget::toggleButtonClicked()
 {
     if(toggleOrderButton->isChecked()){
-        toggleOrderButton->setText("Desc");
-    } else {
         toggleOrderButton->setText("Asc");
+    } else {
+        toggleOrderButton->setText("Desc");
     }
 }

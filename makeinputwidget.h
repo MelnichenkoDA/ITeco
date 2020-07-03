@@ -5,6 +5,7 @@
 #include <QtWidgets>
 #include <fstream>
 #include <cmath>
+#include <limits>
 #include "mymessagebox.h"
 #include "layoutconstructor.h"
 

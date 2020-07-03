@@ -17,6 +17,7 @@ template<class Comparator>
 void sort(size_t lim, const char *inputFilename,
           const char *outputFilename, std::function<void (int)> updateCallback)
 {
+
     ifstream input(inputFilename, std::ios::binary);
     if (!input.is_open()){
         throw std::runtime_error("Couldn't open input file");
@@ -38,7 +39,7 @@ void sort(size_t lim, const char *inputFilename,
 
     double value;
     double temp = 0, count = 0;
-    for (bool changed = true; changed;) {
+    while (true) {
         while((buff.size() < lim) && (input >> value)){
             ++count;
             if (comp(value, border)){
@@ -47,7 +48,7 @@ void sort(size_t lim, const char *inputFilename,
         }
 
         if (!buff.size()){
-            changed = false;
+            break;
         }
 
         while(input >> value){
@@ -87,11 +88,8 @@ void sort(size_t lim, const char *inputFilename,
 
         input.clear();
         input.seekg(0, std::ios::beg);
-
     }
 
-    input.close();
-    output.close();
 }
 
 #endif // ALGO_HPP

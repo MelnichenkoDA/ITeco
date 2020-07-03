@@ -22,7 +22,7 @@ private slots:
     void browseButtonClicked();
     void runButtonCLicked();
     void returnButtonClicked(callback func);
-
+    void toggleButtonClicked();
 private:
     QLabel * pathLabel;
 
@@ -33,6 +33,8 @@ private:
     QPushButton * returnButton;
 
     QRadioButton * toggleOrderButton;
+
+    QProgressBar * progressBar;
 
 };
 

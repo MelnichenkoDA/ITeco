@@ -2,9 +2,11 @@
 #define ALGO_HPP
 
 #include <fstream>
+#include <unordered_map>
 #include <map>
 #include <limits>
 #include <functional>
+#include <QDebug>
 
 using std::ifstream;
 using std::ofstream;
@@ -13,20 +15,21 @@ using std::map;
 
 template<class Comparator>
 void sort(size_t lim, const char *inputFilename,
-          const char *outputFilename)
+          const char *outputFilename, std::function<void (int)> updateCallback)
 {
-    ifstream input(inputFilename);
+
+    ifstream input(inputFilename, std::ios::binary);
     if (!input.is_open()){
         throw std::runtime_error("Couldn't open input file");
     }
 
-    ofstream output(outputFilename);
+    ofstream output(outputFilename, std::ios::binary);
     if (!output.is_open()){
         throw std::runtime_error("Couldn't open output file");
     }
 
     Comparator comp;
-    std::map<double, int, Comparator> buff;
+    std::map<double, unsigned int, Comparator> buff;
     auto it = buff.begin();
 
     double border = std::numeric_limits<double>::max();
@@ -35,19 +38,21 @@ void sort(size_t lim, const char *inputFilename,
     }
 
     double value;
-
-    for (bool changed = true; changed; ) {
+    double temp = 0, count = 0;
+    while (true) {
         while((buff.size() < lim) && (input >> value)){
+            ++count;
             if (comp(value, border)){
                 buff[value] += 1;
             }
         }
 
         if (!buff.size()){
-            changed = false;
+            break;
         }
 
         while(input >> value){
+            ++count;
             if (!comp(value, border) || value == border){
                 continue;
             }
@@ -69,10 +74,14 @@ void sort(size_t lim, const char *inputFilename,
         }
 
         for (auto t = buff.rbegin(); t != buff.rend(); t++){
-            for (int i = 0; i < t->second; ++i){
+            for (unsigned i = 0; i < t->second; ++i){
+                ++temp;
                 output << t->first << " ";
             }
         }
+
+        updateCallback(int((temp /  count) * 100));
+        temp = count = 0;
 
         border = buff.begin()->first;
         buff.clear();
@@ -81,8 +90,6 @@ void sort(size_t lim, const char *inputFilename,
         input.seekg(0, std::ios::beg);
     }
 
-    input.close();
-    output.close();
 }
 
 #endif // ALGO_HPP

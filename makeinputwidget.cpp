@@ -29,8 +29,13 @@ MakeInputWidget::MakeInputWidget(std::function<void ()> callback,
     backButton = new QPushButton(tr("Back"));
     connect(backButton, &QPushButton::clicked, this, std::bind(&MakeInputWidget::backButtonClicked, this, callback));
 
+    progressBar = new QProgressBar;
+    progressBar->setMinimum(0);
+    progressBar->setMaximum(100);
+
     QVBoxLayout * main = static_cast<QVBoxLayout*>(
                 LayoutConstructor::construct(new QVBoxLayout(this), pathLayout, generateLayout));
+    main->addWidget(progressBar);
     main->addWidget(backButton);
 
     setLayout(main);
@@ -50,7 +55,6 @@ void MakeInputWidget::enableGenerateButton()
 
 void MakeInputWidget::generateButtonClicked()
 {
-
     try {
         bool ok = true;
         double count = countLine->text().toDouble(&ok);
@@ -58,34 +62,40 @@ void MakeInputWidget::generateButtonClicked()
             throw std::runtime_error("Wrong numbers count format");
         }
 
-        std::ofstream output(pathLine->text().toStdString());
+        std::ofstream output(pathLine->text().toStdString(), std::ios::binary);
 
         if (!output.is_open()){
             std::string message("Couldn't open file ");
             throw std::runtime_error(message + pathLine->text().toStdString());
         }
 
-        for (; count > 0; --count){
-            output << makeRandom() << " ";
+        double value;
+        for (double temp = 0; temp < count; ++temp){
+            while (qIsInf(value = makeRandom()));
+            output << value << " ";
+            progressBar->setValue(int((temp / count) * 100));
         }
-
+        progressBar->setValue(100);
+        output.close();
         MyMessageBox("The file have finished!", this);
     } catch (const std::exception & ex) {
         MyMessageBox(ex.what(), this);
     }
-
 }
 
 void MakeInputWidget::backButtonClicked(std::function<void ()> callback)
 {
     pathLine->setText("");
     countLine->setText("");
+    progressBar->setValue(0);
     callback();
 }
 
 double MakeInputWidget::makeRandom()
 {
-    return double(rand()) / double(rand()) * 10 - 100;
+    double max = std::numeric_limits<double>::max();
+    double min = std::numeric_limits<double>::min();
+    return (max - min) * ((double)rand() / (double)RAND_MAX) + min;
 }
 
 

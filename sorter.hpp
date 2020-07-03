@@ -37,21 +37,45 @@ void sort(size_t lim, const char *inputFilename,
         border *= -1;
     }
 
+    unsigned tempSize = 50;
+    char* tempBuff = new char[tempSize];
+
     double value;
     double temp = 0, count = 0;
     while (true) {
-        while((buff.size() < lim) && (input >> value)){
+        while((buff.size() < lim)){
+
+            input >> value;                      
+            if (input.fail()) {                
+                input.clear();                
+                input.get(tempBuff, tempSize, ' ');                
+            }
+
+            if (input.eof()) {
+                break;
+            }
+
             ++count;
             if (comp(value, border)){
                 buff[value] += 1;
             }
         }
-
+        
         if (!buff.size()){
             break;
         }
 
-        while(input >> value){
+        while(true){
+            input >> value;
+            if (input.fail()) {                
+                input.clear();
+                input.get(tempBuff, tempSize, ' ');
+            }
+
+            if (input.eof()) {
+                break;
+            }
+
             ++count;
             if (!comp(value, border) || value == border){
                 continue;
@@ -90,6 +114,7 @@ void sort(size_t lim, const char *inputFilename,
         input.seekg(0, std::ios::beg);
     }
 
+    delete[] tempBuff;
 }
 
 #endif // ALGO_HPP

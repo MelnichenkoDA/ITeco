@@ -23,6 +23,7 @@ private slots:
     void runButtonCLicked();
     void returnButtonClicked(callback func);
     void toggleButtonClicked();
+
 private:
     QLabel * pathLabel;
 
@@ -35,7 +36,6 @@ private:
     QRadioButton * toggleOrderButton;
 
     QProgressBar * progressBar;
-
 };
 
 #endif // TESTINGWIDGET_H
